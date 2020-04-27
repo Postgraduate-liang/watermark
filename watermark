@@ -1,0 +1,160 @@
+#include<iostream>
+//#include<deque>
+using namespace std;
+#define Node Elemtype
+
+class Node
+{
+public:
+	int data;
+	Elemtype *next;
+};
+class Queue
+{
+public:
+	Queue();
+	~Queue();
+	bool IsEmpty();
+	void Push(int data);
+	int Pop();
+	void Printf(const Queue &q);
+	int back();
+	int Front();
+	int size();
+
+private:
+	Elemtype* front;
+	Elemtype* rear;
+
+};
+//初始化队列
+Queue::Queue()
+{
+	front = new Elemtype;//申请指针
+	front->data = 0;
+	front->next = NULL;
+	rear = front;
+}
+//摧毁队列
+Queue::~Queue()
+{
+	delete front;
+}
+//判断队列是否为空
+bool Queue::IsEmpty()
+{
+	return front->next == NULL;
+}
+//入队
+void Queue::Push(int data)
+{
+	Elemtype* newNode = new Elemtype;
+	newNode->data = data;
+	newNode->next = NULL;
+	rear->next = newNode;
+	rear = newNode;
+}
+//出队
+int Queue::Pop()
+{
+	if (front->next == NULL)
+	{
+		cout << "队为空" << endl;
+		return -1;
+	}
+	Elemtype* ptemp = front->next;
+	int e = ptemp->data;
+	front->next = ptemp->next;
+	return e;
+	free(ptemp);
+}
+//返回最后一个元素
+int Queue::back()
+{
+	int a = rear->data;
+	return a;
+}
+//返回第一个元素
+int Queue::Front()
+{
+	int a = front->next->data;
+	return a;
+}
+int Queue::size()
+{
+	int num = 0;
+	Elemtype* pfront = front;
+	while (pfront != rear)
+	{
+		num++;
+		Elemtype* p = pfront->next;
+		pfront = p;
+		p = pfront->next;
+	}
+	return num;
+}
+//打印队列
+void Queue::Printf(const Queue &q)
+{
+	Elemtype* pfront = front;
+	if (pfront == rear)
+	{
+		cout << "队为空" << endl;
+		return;
+	}
+	while (pfront != rear)
+	{
+		pfront = pfront->next;
+		cout << pfront->data << ' ';
+	}
+	cout << endl;
+}
+
+int main()
+{
+	Queue q;
+	int a;
+	cout << "1.判断队是否为空 2.入队 3.出队 4.队尾值 5.队头值 6.队列大小 7.打印队列  " << endl;
+	do
+	{
+		cout << "	请选择：";
+		cin >> a;
+		switch (a)
+		{
+		case 1:
+			if (q.IsEmpty())
+				cout << "空队" << endl;
+			else
+			{
+				cout << "不是空队" << endl;
+			}
+			break;
+		case 2:
+			int num;
+			cout << "输入入队的值: ";
+			cin >> num;
+			q.Push(num);
+			break;
+		case 3:
+			cout << "出队值为："<<q.Pop()<<endl;
+			break;
+		case 4:
+			cout << "队尾值为：" << q.back() << endl;
+			break;
+		case 5:
+			cout << "队头值为：" << q.Front() << endl;
+			break;
+		case 6:
+			cout << "队内数量：" << q.size() << endl;
+			break;
+		case 7:
+			cout << "打印队列" << endl;
+			q.Printf(q);
+			break;
+		default:
+			cout << "输入错误" << endl;
+			break;
+		}
+	} while (a != 0);
+	return 0;
+}
